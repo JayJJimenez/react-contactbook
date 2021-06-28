@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import ContactForm from './ContactForm';
 import Contact from './Contact';
-import { prevElementSibling } from 'domutils';
 
-const BASE_URL = 'https://json-server-ssb.herokuapp.com/contacts';
+const BASE_URL = 'https://json-server-phonebook.herokuapp.com/contacts';
 
-
-function ContactList() {
+function ContactContainer() {
     const [contacts, setContacts] = useState([]);
   
     useEffect(() => {
@@ -21,7 +19,7 @@ function ContactList() {
       fetch(URL, config)
         .then(r => r.json())
         .then(() => {
-          const newContacts = contacts.filter(contacts => contacts.id !== contactId);
+          const newContacts = contacts.filter(contact => contact.id !== contactId);
           setContacts(newContacts);
         })
     }
@@ -59,7 +57,10 @@ function ContactList() {
           });
           setContacts(updatedContacts);
         });
+
+
     }
+    
   
     const completeContact = id => {
         let updatedContacts = contacts.map(contact => {
@@ -72,17 +73,19 @@ function ContactList() {
     };
 
     return (
+
         <div>
             <h1>Jonathan's Phonebook</h1>
             <ContactForm onSubmit={addContact} />
             <Contact 
             contacts={contacts}
             completeContact={completeContact}
-            removeContact={deleteContact}
+            deleteContact={deleteContact}
             updateContact={updateContact}
             /> 
         </div>
+        
     );
 }
 
-export default ContactList;
+export default ContactContainer;
